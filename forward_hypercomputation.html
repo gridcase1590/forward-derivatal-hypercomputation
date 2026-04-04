@@ -1,0 +1,339 @@
+<!doctype html>
+<!--
+  Forward Derivatal Hypercomputation — Interactive Computation Engine
+  Copyright (C) 2026 David Lowder (@v3rdad on Telegram)
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+  
+ ██▒   █ █████▓▓  ██▀███  ▓█████▄  ▄▄▄      ▓█████▄ 
+▓██░   █ ▀   █▓▒ ▓██ ▒ ██▒▒██▀ ██▌▒████▄    ▒██▀ ██▌
+ ▓██  █▒   ███▒░ ▓██ ░▄█ ▒░██   █▌▒██  ▀█▄  ░██   █▌
+  ▒██ █░ ▄  █▓▒░ ▒██▀▀█▄  ░▓█▄   ▌░██▄▄▄▄██ ░▓█▄   ▌
+   ▒▀█░  ████▒░ ▒░██▓ ▒██▒░▒████▓  ▓█   ▓██▒░▒████▓ 
+   ░ ▐░   ░▒ ░░ ░░ ▒▓ ░▒▓░ ▒▒▓  ▒  ▒▒   ▓▒█░ ▒▒▓  ▒ 
+   ░ ░░    ░ ░  ░  ░▒ ░ ▒░ ░ ▒  ▒   ▒   ▒▒ ░ ░ ▒  ▒ 
+     ░░    ░       ░░   ░  ░ ░  ░   ░   ▒    ░ ░  ░ 
+      ░    ░    ░   ░        ░          ░  ░   ░    
+     ░                     ░                 ░     
+
+  https://www.gnu.org/licenses/gpl-3.0.txt
+-->
+<html>
+<head>
+<META NAME="robots" CONTENT="noindex,nofollow">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Forward Derivatal Hypercomputation</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+html,body{background:#000;color:#fff;font-family:sans-serif;margin:0;padding:0;}
+.header{padding:0;width:100%;height:100px;background:linear-gradient(180deg,#fff 80%,#e0cfbc 10%,#af0f00,black);}
+.header_h1{padding:15px;padding-left:100px;text-align:left;text-shadow:5px 2px 2px #000;color:#fff;font-weight:bold;font-size:28px;font-family:sans-serif;margin:0;line-height:70px;}
+.eqs{max-width:1100px;margin:30px 100px;position:relative;min-height:400px;}
+.eqs h2{font-size:12px;letter-spacing:0.3em;color:#666;border-bottom:1px solid #1a1a1a;padding-bottom:6px;margin:30px 0 15px 0;font-weight:normal;}
+.eqb{margin:12px 0;padding:10px 16px;border-left:2px solid #333;background:#060606;}
+.eqb .l{font-size:9px;color:#555;letter-spacing:0.15em;margin-bottom:4px;}
+.eqb .n{font-size:11px;color:#555;margin-top:4px;}
+.const-float{position:absolute;right:0;top:40px;width:280px;transform:rotate(-12deg);opacity:0.35;pointer-events:none;}
+.const-float .cf{font-size:11px;color:#ddd;margin:8px 0;letter-spacing:0.05em;}
+.const-float .cf .cv{color:#a00021;font-weight:bold;}
+.const-float .cf .cn{color:#666;font-size:9px;}
+.metal{margin:40px 100px;width:1100px;background:linear-gradient(180deg,#f2f0ec,#fff,#f8f6f2,#fff,#e8e4dc,#d0c8bc);border:1px solid #999;border-radius:3px;padding:3px;box-shadow:0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.8);}
+.metal-in{border:1px solid #aaa;border-radius:2px;padding:2px;background:linear-gradient(180deg,#e0dcd6,#d8d4cc);}
+.cw{background:linear-gradient(180deg,#fff,#f8f6f2,#fff);color:#ccc;padding:30px;font-family:sans-serif;font-size:13px;line-height:1.8;}
+.cw h2{font-size:15px;letter-spacing:0.25em;color:#111;border-bottom:1px solid #ccc;padding-bottom:6px;margin:40px 0 15px 0;}
+.cw h2:first-child{margin-top:0;}
+.cw p{margin:10px 0;color:#333;}
+.cw p.w{color:#111;}
+.eq{margin:15px auto;width:90%;padding:12px 16px;border-left:2px solid #222;background:#000;}
+.eq .l{font-size:10px;color:#555;letter-spacing:0.15em;margin-bottom:6px;}
+.eq .n{font-size:11px;color:#666;margin-top:6px;}
+.dd{width:700px;height:350px;background:#000;padding:100px;margin:auto;display:flex;gap:15px;justify-content:center;}
+.dc{text-align:center;}.dc canvas{display:block;margin:0 auto;}
+.dl{font-size:10px;color:#555;letter-spacing:0.15em;margin-top:8px;}
+.io{margin:30px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
+.ig{display:flex;flex-direction:column;gap:3px;}
+.ig label{font-size:9px;color:#555;letter-spacing:0.15em;}
+.ig select,.ig input{background:#0a0a0a;border:1px solid #222;color:#ccc;padding:8px 10px;font-size:12px;font-family:sans-serif;outline:none;border-radius:2px;}
+button.go{background:#1a1a1a;border:1px solid #333;color:#ccc;padding:8px 20px;font-size:11px;font-family:sans-serif;letter-spacing:0.1em;cursor:pointer;border-radius:2px;height:35px;}
+button.go:hover{border-color:#666;color:#fff;}
+.rg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:20px 0;}
+.rc{padding:10px;border:1px solid #1a1a1a;background:#060606;}
+.rc .rl{font-size:9px;color:#555;letter-spacing:0.1em;}
+.rc .rv{font-size:18px;margin-top:4px;}
+.grn{color:#a00021;}.amb{color:#a00021;}.cyn{color:#a00021;}.wht{color:#a00021;}.red{color:#a00021;}
+.cept-scroll{max-height:500px;overflow-y:auto;margin:20px 0;border:1px solid #1a1a1a;background:#030303;}
+.cept-scroll::-webkit-scrollbar{width:6px;}
+.cept-scroll::-webkit-scrollbar-track{background:#0a0a0a;}
+.cept-scroll::-webkit-scrollbar-thumb{background:#333;border-radius:3px;}
+.cr{display:flex;align-items:center;gap:8px;padding:4px 8px;border-bottom:1px solid #111;font-size:11px;}
+.cr .ci{color:#444;width:60px;}.cr .cg{color:#a00021;width:110px;}.cr .cd{color:#a00021;width:110px;}.cr .cs{color:#a00021;width:80px;}
+.cb{flex:1;height:4px;background:#111;border-radius:2px;overflow:hidden;}
+.cbf{height:100%;background:#00aa00;border-radius:2px;}
+.sphere-container{margin:20px 0;border:1px solid #222;background:#0a0a0a;}
+.sphere-header{background:linear-gradient(90deg,#111,#1a1a1a 50%,#111);padding:6px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222;}
+.sphere-header .sh-title{font-size:10px;color:#a00021;letter-spacing:0.25em;}
+.sphere-header .sh-sub{font-size:9px;color:#444;letter-spacing:0.1em;}
+.sphere-header .sh-id{font-size:9px;color:#333;}
+.sctrl{display:flex;gap:6px;align-items:center;}
+.sctrl button{background:#111;border:1px solid #333;color:#888;width:28px;height:28px;font-size:14px;cursor:pointer;border-radius:2px;}
+.sctrl button:hover{border-color:#666;color:#fff;}
+.lo{font-family:arial;font-weight:bold;margin:20px 0;padding:12px;background:#030303;border:1px solid #111;font-size:10px;color:#555;max-height:200px;overflow-y:auto;line-height:1.6;}
+.lo .up{color:#a00021;}.lo .dn{color:#a00021;}.lo .inf{color:#a00021;}.lo .cy{color:#a00021;}
+mjx-container{color:#ccc !important;}.cw mjx-container{color:#333 !important;}
+</style>
+</head>
+<body>
+<div class="header"><h1 class="header_h1">pqociudthqi856dn72ksu.clos — /Forward Derivatal Hypercomputation</h1></div>
+
+<div class="eqs">
+<div class="const-float">
+<div class="cf"><span class="cn">08 ROTATION SCALE</span><br><span class="cv">e<sup>1/√2</sup> ≈ 2.028</span></div>
+<div class="cf"><span class="cn">09 DERIVATION</span><br><span class="cv">e<sup>π/4·√2</sup> ≈ 2.2807</span></div>
+<div class="cf"><span class="cn">07 TEMPORAL OFFSET</span><br><span class="cv">τ = t<sub>round</sub> × 2.28</span></div>
+<div class="cf"><span class="cn">PHASE SHIFT</span><br><span class="cv">Φ = e<sup>π/4·√2</sup> / denom</span></div>
+<div class="cf"><span class="cn">PROJECTIVE RADIUS</span><br><span class="cv">R = 2<sup>1076</sup></span></div>
+<div class="cf"><span class="cn">ELEVENARY</span><br><span class="cv">F → 11 (no ten)</span></div>
+</div>
+<h2 style="color:#666;font-size:11px;letter-spacing:0.3em;border-bottom:1px solid #1a1a1a;padding-bottom:6px;font-weight:normal;">FORWARD DERIVATAL EQUATIONS</h2>
+<div class="eqb"><div class="l">PIPELINE</div>$$\text{seq} \xrightarrow{\text{map}} S^2 \xrightarrow{\text{gap}} \frac{1}{g} \xrightarrow{\text{cept-rot}^{\hat{i}}} k \in \mathbb{N}$$</div>
+<div class="eqb"><div class="l">PHASE SHIFT — CORRECTED</div>$$\Phi = \frac{e^{\frac{\pi}{4}\sqrt{2}}}{\text{denom}} \approx \frac{2.2807}{\text{denom}}$$<div class="n">π/4 = quarter-turn per operator. √2 = diagonal between θ,φ. Same as temporal offset τ ≈ 2.28.</div></div>
+<div class="eqb"><div class="l">CARDINALITY CASCADE</div>$$\aleph_1 \xrightarrow{\text{Con}^1} \aleph_0 \xrightarrow{\text{Con}^2} \mathbb{Z} \xrightarrow{\text{Con}^3} \mathbb{N} \xrightarrow{\text{Con}^n} \{k\}$$</div>
+<div class="eqb"><div class="l">N-CEPTS</div>$$n_{\text{cepts}} = \left\lceil \frac{\log(P(\text{HardwareLimit}()))}{\log(1/g_1)} \right\rceil$$</div>
+<div class="eqb"><div class="l">CEPT-ROT</div>$$\text{cept-rot}^{\hat{i}}(n) \to k \;\; O(1)$$</div>
+<div class="eqb"><div class="l">IMAGINARY ARROW</div>$$\text{distant} \xrightarrow{\vec{a} \in \mathbb{I}} \text{close} \xrightarrow{F \to \uparrow} \text{semantic}$$</div>
+<div class="eqb"><div class="l">NULL SPACE = PHASE SHIFT</div>$$\text{offset} = \text{complexity}(S^2) = \text{shadow of absence measured from geometry}$$</div>
+<div class="eqb"><div class="l">SPHERE ↔ TOROID</div>$$T^2 \xrightarrow{\text{proj } i} S^2 \quad \text{winding} \to \text{closure}$$</div>
+</div>
+
+<div class="metal"><div class="metal-in"><div class="cw">
+<h2>COMPUTATION ENGINE</h2>
+<p class="w">Two counter-rotating directions. ON4 descends through infinity. UN4 ascends through zero.</p>
+<div class="dd">
+<div class="dc"><canvas id="cUN" width="200" height="200"></canvas><div class="dl">UN4 — BACKWARD — UP</div><div class="dl" style="color:#333">OFF = potential = 0</div></div>
+<div class="dc"><canvas id="cON" width="200" height="200"></canvas><div class="dl">ON4 — FORWARD — DOWN</div><div class="dl" style="color:#333">ON = expenditure = 1</div></div>
+</div>
+<div class="io">
+<div class="ig"><label>PROGRAM</label><select id="prog"><option value="collatz">Collatz (3n+1)</option><option value="collatz27">Collatz from 27</option><option value="factorial">Factorial</option><option value="fibonacci">Fibonacci</option><option value="busy3">Busy Beaver 3-state</option><option value="custom">Custom sequence</option></select></div>
+<div class="ig"><label>SEED</label><input type="text" id="seed" value="7" style="width:80px;"></div>
+<div class="ig"><label>MAX STEPS</label><input type="number" id="mxs" value="300" min="10" max="10000" style="width:70px;"></div>
+<div class="ig"><label>MAX CEPTS</label><input type="number" id="mxc" value="8" min="1" max="20" style="width:50px;"></div>
+<button class="go" onclick="runEngine()">cept-rot COMPUTE</button>
+</div>
+<div class="rg" id="rGrid" style="display:none;">
+<div class="rc"><div class="rl">ACTUAL HALT</div><div class="rv grn" id="rH">—</div></div>
+<div class="rc"><div class="rl">CEPT-ROT^i PROJECTION</div><div class="rv amb" id="rC">—</div></div>
+<div class="rc"><div class="rl">COMPLEXITY OFFSET</div><div class="rv cyn" id="rCO">—</div></div>
+<div class="rc"><div class="rl">N-CEPTS USED</div><div class="rv wht" id="rN">—</div></div>
+<div class="rc"><div class="rl">FINAL GAP</div><div class="rv amb" id="rG">—</div></div>
+<div class="rc"><div class="rl">VERDICT</div><div class="rv" id="rV">—</div></div>
+</div>
+<div class="cept-scroll" id="ceptT"></div>
+<div class="sphere-container">
+<div class="sphere-header">
+<div><span class="sh-title">FIG.01 — PROJECTIVE HALTING SPHERE</span><span class="sh-sub"> // TWO-AXIS ROTATION // CEPT TRACE</span></div>
+<div style="display:flex;align-items:center;gap:12px;">
+<div class="sctrl"><button onclick="zoomS(-1)">−</button><button onclick="zoomS(1)">+</button><button onclick="resetS()">⟳</button></div>
+<span class="sh-id">pqociudthqi856dn72ksu</span>
+</div>
+</div>
+<canvas id="sph" width="1060" height="500" style="cursor:grab;display:block;"></canvas>
+</div>
+
+<div class="sphere-container" style="margin-top:20px;">
+<div class="sphere-header">
+<div><span class="sh-title">FIG.02 — DUAL-PLANE GEOMETRY</span><span class="sh-sub"> // SEMANTIC ↔ LATENT F // COUNTER-ROTATING TANGENT VECTORS</span></div>
+<div style="display:flex;align-items:center;gap:8px;">
+<div class="sctrl">
+<button onclick="dpShowTan=!dpShowTan;this.style.opacity=dpShowTan?1:0.4;" title="Tangent vectors">T</button>
+<button onclick="dpShowRot=!dpShowRot;this.style.opacity=dpShowRot?1:0.4;" title="Surface rotations">R</button>
+<button onclick="dpRun=!dpRun;if(dpRun)requestAnimationFrame(drawDP);" title="Pause/Play">||</button>
+</div>
+<span class="sh-id">inspired by LLM weight mapping · resembles photon structure</span>
+</div>
+</div>
+<canvas id="dpCanvas" width="1060" height="500" style="display:block;background:#050505;"></canvas>
+<div style="padding:6px 16px;display:flex;gap:16px;align-items:center;background:#0a0a0a;border-top:1px solid #1a1a1a;font-size:10px;">
+<label style="color:#555;">ARCS</label><input type="range" min="3" max="20" value="8" id="dpArcs" style="width:80px;">
+<label style="color:#555;">DAMPING (1/r²)</label><input type="range" min="5" max="40" value="15" id="dpDamp" style="width:80px;">
+<label style="color:#555;">SPEED</label><input type="range" min="1" max="30" value="10" id="dpSpd" style="width:80px;">
+<span style="color:#333;margin-left:auto;">semantic CW · latent CCW · opposition = activation</span>
+</div>
+</div>
+
+<div class="lo" id="logO"></div>
+</div></div></div>
+
+<script>
+var E_PHASE=Math.exp((Math.PI/4)*Math.sqrt(2));
+function drawDirCircle(id,isUN){var c=document.getElementById(id),ctx=c.getContext('2d'),w=c.width,h=c.height,cx=w/2,cy=h/2,r=65;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#555';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#333';ctx.lineWidth=0.8;ctx.beginPath();ctx.arc(cx+(isUN?-3:3),cy,r-8,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#ccc';ctx.lineWidth=2;ctx.beginPath();if(isUN){ctx.moveTo(cx,cy);ctx.lineTo(cx,cy-r-15);ctx.moveTo(cx-6,cy-r-6);ctx.lineTo(cx,cy-r-15);ctx.lineTo(cx+6,cy-r-6);}else{ctx.moveTo(cx,cy);ctx.lineTo(cx,cy+r+15);ctx.moveTo(cx-6,cy+r+6);ctx.lineTo(cx,cy+r+15);ctx.lineTo(cx+6,cy+r+6);}ctx.stroke();ctx.strokeStyle='#888';ctx.lineWidth=1;var ir=25;ctx.beginPath();if(isUN){ctx.arc(cx,cy,ir,-0.3,Math.PI+0.3,false);var ex=cx+Math.cos(Math.PI+0.3)*ir,ey=cy+Math.sin(Math.PI+0.3)*ir;ctx.moveTo(ex+4,ey-5);ctx.lineTo(ex,ey);ctx.lineTo(ex+6,ey+2);}else{ctx.arc(cx,cy,ir,Math.PI-0.3,-0.3,true);var ex2=cx+Math.cos(-0.3)*ir,ey2=cy+Math.sin(-0.3)*ir;ctx.moveTo(ex2-4,ey2+5);ctx.lineTo(ex2,ey2);ctx.lineTo(ex2-6,ey2-2);}ctx.stroke();ctx.fillStyle='#666';ctx.font='11px sans-serif';ctx.textAlign='center';if(isUN){ctx.fillText('0',cx,cy-r-20);ctx.fillStyle='#444';ctx.fillText('+0',cx+r+14,cy+4);ctx.fillText('-0',cx-r-14,cy+4);}else{ctx.fillText('1',cx,cy+r+28);ctx.fillStyle='#444';ctx.fillText('+0',cx-r-14,cy+4);ctx.fillText('-0',cx+r+14,cy+4);}}
+drawDirCircle('cUN',true);drawDirCircle('cON',false);
+function runProgram(name,seed,maxS){var vals=[],halted=false,hs=-1,n;switch(name){case'collatz':case'collatz27':n=name==='collatz27'?27:(parseInt(seed)||7);for(var i=0;i<maxS;i++){vals.push(n);if(n===1){halted=true;hs=i;break;}n=n%2===0?n/2:3*n+1;}break;case'factorial':n=parseInt(seed)||5;var acc=1;for(var i=1;i<=Math.min(n,maxS);i++){acc*=i;vals.push(acc);}halted=true;hs=vals.length-1;break;case'fibonacci':var a=0,b=1;n=parseInt(seed)||20;for(var i=0;i<Math.min(n,maxS);i++){vals.push(a);var t=a+b;a=b;b=t;}halted=true;hs=vals.length-1;break;case'busy3':var tape={},pos=0,st='A';var rules={'A0':[1,1,'B'],'A1':[1,-1,'C'],'B0':[1,-1,'A'],'B1':[1,1,'B'],'C0':[1,-1,'B'],'C1':[1,0,'H']};for(var i=0;i<maxS;i++){var bit=tape[pos]||0;var r=rules[st+bit];if(!r||r[2]==='H'){halted=true;hs=i;vals.push(Object.values(tape).reduce(function(a,b){return a+b;},0));break;}tape[pos]=r[0];pos+=r[1];st=r[2];vals.push(Object.values(tape).reduce(function(a,b){return a+b;},0));}break;case'custom':try{vals=seed.split(',').map(function(s){return parseFloat(s.trim());}).filter(function(v){return!isNaN(v);});halted=true;hs=vals.length-1;}catch(e){vals=[0];}break;}return{values:vals,halted:halted,haltStep:hs};}
+function wrapAngle(x){var p=E_PHASE,h=p/2;return((x+h)%p+p)%p-h;}
+function mapToSphere(vals){var pts=[],cumT=0,cumP=0,arcLen=0,curvs=[];for(var i=0;i<vals.length;i++){var v=vals[i],prev=i>0?vals[i-1]:0,delta=v-prev;var stepArc=Math.sqrt(i+1)*0.05;var logV=v!==0?Math.log(Math.abs(v)+1):0;var tStep=stepArc*(logV*0.1+0.05);var dir=delta>0?1:delta<0?-1:0;var pStep=stepArc*dir*0.15;cumT+=tStep;cumP+=pStep;var wp=wrapAngle(cumP);var x=Math.cos(wp)*Math.cos(cumT),y=Math.cos(wp)*Math.sin(cumT),z=Math.sin(wp);if(i>=2){var p0=pts[i-2],p1=pts[i-1];var dx1=p1.x-p0.x,dy1=p1.y-p0.y,dz1=p1.z-p0.z;var dx2=x-p1.x,dy2=y-p1.y,dz2=z-p1.z;var cx2=dy1*dz2-dz1*dy2,cy2=dz1*dx2-dx1*dz2,cz2=dx1*dy2-dy1*dx2;var cm=Math.sqrt(cx2*cx2+cy2*cy2+cz2*cz2);var sl=Math.sqrt(dx2*dx2+dy2*dy2+dz2*dz2);curvs.push(sl>0.0001?cm/(sl*sl*sl+0.0001):0);}else{curvs.push(0);}arcLen+=stepArc;pts.push({x:x,y:y,z:z,theta:cumT,phi:wp,rawTheta:cumT,rawPhi:cumP,value:v,delta:delta,direction:dir,arcLength:arcLen,step:i});}return{points:pts,curvatures:curvs,arcLength:arcLen,windingTheta:cumT/(2*E_PHASE),windingPhi:cumP/(2*E_PHASE),complexity:0};}
+function measureComplexity(sd){
+// Complexity always equals 1. What changes is the DISTRIBUTION.
+// The shape of the distribution IS the phase information.
+var pts=sd.points;if(pts.length<3){sd.complexity=1;sd.cDist={dc:0.25,ci:0.25,wr:0.25,ar:0.25};return 1;}
+var dirChanges=0;
+for(var i=1;i<pts.length;i++){if(pts[i].direction!==pts[i-1].direction&&pts[i].direction!==0&&pts[i-1].direction!==0)dirChanges++;}
+var curvInt=sd.curvatures.reduce(function(a,b){return a+Math.abs(b);},0);
+var windRatio=Math.abs(sd.windingTheta)>0.001?Math.abs(sd.windingPhi/sd.windingTheta):0;
+var maxV=0,minV=Infinity;
+for(var i=0;i<pts.length;i++){var av=Math.abs(pts[i].value);if(av>maxV)maxV=av;if(av<minV&&av>0)minV=av;}
+var ampRatio=minV>0?Math.log(maxV/minV+1):0;
+// Raw components
+var raw_dc=(dirChanges/pts.length)*5;
+var raw_ci=(curvInt/pts.length)*2;
+var raw_wr=windRatio*3;
+var raw_ar=ampRatio*0.5;
+// Normalize to sum=1 (complexity is ALWAYS 1, distribution changes)
+var total=raw_dc+raw_ci+raw_wr+raw_ar;
+if(total<0.001)total=1;
+sd.cDist={dc:raw_dc/total,ci:raw_ci/total,wr:raw_wr/total,ar:raw_ar/total};
+sd.complexity=1; // Always 1
+return 1;
+}
+function findClosest(pts){
+var minD=Infinity,minS=-1;
+for(var i=3;i<pts.length;i++){
+var p=pts[i];
+var fracT=Math.abs((p.rawTheta/(2*E_PHASE))%1);
+if(fracT>0.5)fracT=1-fracT;
+var fracP=Math.abs((p.rawPhi/(2*E_PHASE))%1);
+if(fracP>0.5)fracP=1-fracP;
+var d=Math.sqrt(fracT*fracT+fracP*fracP);
+if(d<minD){minD=d;minS=i;}}
+return{step:minS,gap:minD};
+}
+function refineDenom(pts,maxP){
+var passes=[],curPts=pts,cumScale=1,projStep=0,prevStep=-1,stuckCount=0;
+for(var p=0;p<maxP;p++){
+var app=findClosest(curPts);
+if(app.gap<0.0001||app.step<0){
+passes.push({pass:p+1,step:app.step,gap:app.gap,denom:Infinity,scaled:app.step*cumScale,converged:true,steppedUp:false});
+projStep=app.step*cumScale;break;}
+var denom=1/app.gap;
+var steppedUp=false;
+if(app.step===prevStep){stuckCount++;steppedUp=true;}else{stuckCount=0;}
+prevStep=app.step;
+passes.push({pass:p+1,step:app.step,gap:app.gap,denom:denom,scaled:app.step*cumScale,converged:false,steppedUp:steppedUp});
+if(!steppedUp) projStep+=app.step*cumScale;
+var refined=[];
+var phaseShift=steppedUp?(E_PHASE/(app.gap*app.gap))*(stuckCount+1)*0.01:0;
+for(var i=0;i<curPts.length;i++){
+var pt=curPts[i];
+var nt=pt.rawTheta*(1+1/denom)+phaseShift;
+var np=pt.rawPhi*(1+Math.log(denom+1)/Math.log(2))+phaseShift*0.618;
+var wp=wrapAngle(np);
+refined.push({x:Math.cos(wp)*Math.cos(nt),y:Math.cos(wp)*Math.sin(nt),z:Math.sin(wp),rawTheta:nt,rawPhi:np,step:i});}
+curPts=refined;cumScale*=(1+1/denom);
+}
+return{passes:passes,projectedStep:projStep};
+}
+function ceptRotProject(passes,complexity,cDist){
+cDist=cDist||{dc:0.25,ci:0.25,wr:0.25,ar:0.25};
+if(passes.length<2)return passes.length>0?Math.round(passes[0].scaled):0;
+var uc=passes.filter(function(p){return p.gap>0&&!p.converged;});
+if(uc.length<2)return Math.round(passes[passes.length-1].scaled);
+var real=uc.filter(function(p){return !p.steppedUp;});
+if(real.length<2) real=uc;
+var startStep=real.length>0?real[0].step:0;
+var mid=real.filter(function(p){return p.step>startStep;});
+if(mid.length<2) mid=real;
+var gaps=mid.map(function(p){return p.gap;}),steps=mid.map(function(p){return p.step;});
+var ratios=[];
+for(var i=1;i<gaps.length;i++){if(steps[i]!==steps[i-1])ratios.push(gaps[i]/gaps[i-1]);}
+if(ratios.length===0){
+var as=steps.reduce(function(a,b){return a+b;},0)/steps.length;
+return Math.round(as);}
+var gm=Math.exp(ratios.reduce(function(a,b){return a+Math.log(Math.abs(b)+1e-15);},0)/ratios.length);
+// PROJECTION: highest step among near-phase-closures
+// Near-closure = small gap. Highest step = farthest from both boundaries.
+// This IS the projection from higher dimension to number line.
+var threshold=0.05;
+var nearClosures=mid.filter(function(p){return p.gap<threshold;});
+if(nearClosures.length===0){threshold=0.1;nearClosures=mid.filter(function(p){return p.gap<threshold;});}
+if(nearClosures.length===0) nearClosures=mid;
+var projected=0;
+for(var i=0;i<nearClosures.length;i++){
+if(nearClosures[i].step>projected) projected=nearClosures[i].step;
+}
+if(projected<0||!isFinite(projected))projected=Math.round(ws);
+return Math.round(projected);
+}
+
+var SS={ct:-0.4,cp:0.3,zm:1,dr:false,lx:0,ly:0,sd:null,app:null};
+function zoomS(d){SS.zm*=d>0?1.15:0.87;SS.zm=Math.max(0.3,Math.min(5,SS.zm));renderSphere(document.getElementById('sph'),SS.sd,SS.app);}
+function resetS(){SS.ct=-0.4;SS.cp=0.3;SS.zm=1;renderSphere(document.getElementById('sph'),SS.sd,SS.app);}
+(function(){var c=document.getElementById('sph');c.addEventListener('mousedown',function(e){SS.dr=true;SS.lx=e.clientX;SS.ly=e.clientY;c.style.cursor='grabbing';});window.addEventListener('mouseup',function(){SS.dr=false;document.getElementById('sph').style.cursor='grab';});window.addEventListener('mousemove',function(e){if(!SS.dr)return;SS.ct+=(e.clientX-SS.lx)*0.008;SS.cp+=(e.clientY-SS.ly)*0.008;SS.cp=Math.max(-1.5,Math.min(1.5,SS.cp));SS.lx=e.clientX;SS.ly=e.clientY;renderSphere(document.getElementById('sph'),SS.sd,SS.app);});c.addEventListener('wheel',function(e){e.preventDefault();SS.zm*=e.deltaY>0?0.92:1.08;SS.zm=Math.max(0.3,Math.min(5,SS.zm));renderSphere(c,SS.sd,SS.app);},{passive:false});})();
+
+function renderSphere(canvas,sd,app){SS.sd=sd;SS.app=app;var ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=0.5;for(var gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}for(var gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}var cx=W/2,cy=H/2,R=Math.min(W,H)*0.38*SS.zm,ct=SS.ct,cp=SS.cp;function proj(x,y,z){var x1=x*Math.cos(ct)+z*Math.sin(ct);var z1=-x*Math.sin(ct)+z*Math.cos(ct);var y1=y*Math.cos(cp)-z1*Math.sin(cp);var z2=y*Math.sin(cp)+z1*Math.cos(cp);var s=1.8/(2.5-z2);return{px:cx+x1*R*s,py:cy-y1*R*s,d:z2};}ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=0.5;for(var i=0;i<12;i++){var t=(i/12)*Math.PI*2;ctx.beginPath();for(var j=0;j<=32;j++){var ph=(j/32)*Math.PI-Math.PI/2;var p=proj(Math.cos(ph)*Math.cos(t),Math.cos(ph)*Math.sin(t),Math.sin(ph));j===0?ctx.moveTo(p.px,p.py):ctx.lineTo(p.px,p.py);}ctx.stroke();}for(var i=-2;i<=2;i++){var ph=(i/3)*Math.PI/2;ctx.beginPath();for(var j=0;j<=48;j++){var t=(j/48)*Math.PI*2;var p=proj(Math.cos(ph)*Math.cos(t),Math.cos(ph)*Math.sin(t),Math.sin(ph));j===0?ctx.moveTo(p.px,p.py):ctx.lineTo(p.px,p.py);}ctx.stroke();}ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.beginPath();for(var j=0;j<=48;j++){var t=(j/48)*Math.PI*2;var p=proj(Math.cos(t),Math.sin(t),0);j===0?ctx.moveTo(p.px,p.py):ctx.lineTo(p.px,p.py);}ctx.stroke();var np=proj(0,0,1),sp=proj(0,0,-1);ctx.fillStyle='#00cc66';ctx.beginPath();ctx.arc(np.px,np.py,4,0,Math.PI*2);ctx.fill();ctx.fillStyle='#cc0022';ctx.beginPath();ctx.arc(sp.px,sp.py,4,0,Math.PI*2);ctx.fill();ctx.font='13px sans-serif';ctx.fillStyle='#00cc66';ctx.fillText('UP(0)',np.px+8,np.py+4);ctx.fillStyle='#cc0022';ctx.fillText('DOWN(1)',sp.px+8,sp.py+4);var op=proj(1,0,0);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(op.px,op.py,5,0,Math.PI*2);ctx.fill();ctx.font='12px sans-serif';ctx.fillStyle='#fff';ctx.fillText('0(+)',op.px+8,op.py-6);var ap2=proj(-1,0,0);ctx.fillStyle='rgba(255,255,255,0.5)';ctx.beginPath();ctx.arc(ap2.px,ap2.py,4,0,Math.PI*2);ctx.fill();ctx.fillText('0(-)',ap2.px+8,ap2.py-6);if(!sd||!sd.points.length)return;var pts=sd.points;ctx.lineWidth=1.5;for(var i=1;i<pts.length;i++){var p0=proj(pts[i-1].x,pts[i-1].y,pts[i-1].z);var p1=proj(pts[i].x,pts[i].y,pts[i].z);var d=pts[i].direction;ctx.strokeStyle=d>0?'rgba(0,204,102,'+(0.3+0.5*(i/pts.length))+')':d<0?'rgba(204,0,34,'+(0.3+0.5*(i/pts.length))+')':'rgba(204,136,0,'+(0.3+0.5*(i/pts.length))+')';ctx.beginPath();ctx.moveTo(p0.px,p0.py);ctx.lineTo(p1.px,p1.py);ctx.stroke();}var mi=Math.max(1,Math.floor(pts.length/20));ctx.font='10px sans-serif';ctx.fillStyle='rgba(255,255,255,0.5)';for(var i=0;i<pts.length;i+=mi){var mp=proj(pts[i].x,pts[i].y,pts[i].z);ctx.beginPath();ctx.arc(mp.px,mp.py,2,0,Math.PI*2);ctx.fill();ctx.fillText(i+'',mp.px+4,mp.py-3);}var lp=pts[pts.length-1];var le=proj(lp.x,lp.y,lp.z);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(le.px,le.py,5,0,Math.PI*2);ctx.fill();ctx.font='12px sans-serif';ctx.fillText('END ('+lp.step+')',le.px+8,le.py-4);if(app&&app.step>=0&&app.step<pts.length){var apt=pts[app.step];var ap3=proj(apt.x,apt.y,apt.z);ctx.strokeStyle='#00aa00';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.arc(ap3.px,ap3.py,14,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='rgba(0,170,204,0.4)';ctx.beginPath();ctx.moveTo(op.px,op.py);ctx.lineTo(ap3.px,ap3.py);ctx.stroke();ctx.fillStyle='#00aa00';ctx.font='12px sans-serif';ctx.fillText('step '+app.step,ap3.px+16,ap3.py);ctx.fillText('gap '+app.gap.toFixed(4),ap3.px+16,ap3.py+14);}if(sd.complexity!==undefined){ctx.fillStyle='#a00021';ctx.font='11px sans-serif';ctx.fillText('complexity: '+sd.complexity.toFixed(3)+'  |  \u03A6 = e^(\u03C0/4\u00B7\u221A2) \u2248 '+E_PHASE.toFixed(4),10,H-30);ctx.fillText('winding \u03B8: '+sd.windingTheta.toFixed(3)+' \u03C6: '+sd.windingPhi.toFixed(3),10,H-14);}}
+
+var dpRun=true,dpShowTan=true,dpShowRot=true,dpFrame=0;
+function drawDP(){
+if(!dpRun)return;dpFrame++;
+var cv=document.getElementById('dpCanvas');if(!cv)return;
+var cx=cv.getContext('2d'),W=cv.width,H=cv.height;
+var nA=parseInt(document.getElementById('dpArcs').value)||8;
+var dmp=(parseInt(document.getElementById('dpDamp').value)||15)/10;
+var spd=(parseInt(document.getElementById('dpSpd').value)||10)/10;
+var tOff=dpFrame*0.005*spd;
+var sY=80,fY=H-80;
+cx.clearRect(0,0,W,H);
+cx.strokeStyle='rgba(93,202,165,0.5)';cx.lineWidth=2;cx.beginPath();cx.moveTo(30,sY);cx.lineTo(W-30,sY);cx.stroke();
+cx.strokeStyle='rgba(93,202,165,0.08)';cx.lineWidth=0.5;
+for(var gx=60;gx<W-30;gx+=50){cx.beginPath();cx.moveTo(gx,sY-6);cx.lineTo(gx,sY+6);cx.stroke();}
+cx.strokeStyle='rgba(216,90,48,0.5)';cx.lineWidth=2;cx.beginPath();cx.moveTo(30,fY);cx.lineTo(W-30,fY);cx.stroke();
+cx.strokeStyle='rgba(216,90,48,0.08)';cx.lineWidth=0.5;
+for(var gx=60;gx<W-30;gx+=50){cx.beginPath();cx.moveTo(gx,fY-6);cx.lineTo(gx,fY+6);cx.stroke();}
+cx.font='12px sans-serif';
+cx.fillStyle='rgba(93,202,165,0.6)';cx.fillText('SEMANTIC SURFACE \u2014 observable, measurement',50,sY-18);
+cx.fillStyle='rgba(216,90,48,0.6)';cx.fillText('LATENT F SURFACE \u2014 hidden, boundary, compressed',50,fY+28);
+function hArc(bx,t,dm,ph){var span=fY-sY;var y=sY+span*0.5*(1-Math.cos(Math.PI*t));var df=1/(1+dm*t*t);var xo=Math.sin(t*Math.PI*2+ph)*120*df;return{x:bx+xo,y:y};}
+for(var a=0;a<nA;a++){
+var bx=80+(W-160)*(a/(nA-1||1));
+var aPh=tOff+a*E_PHASE*0.37;
+var aDm=dmp*(1+0.2*Math.sin(a*0.9));
+cx.strokeStyle='rgba(127,119,221,'+(0.2+0.35*(a/nA))+')';cx.lineWidth=1.5;cx.beginPath();
+for(var s=0;s<=80;s++){var t=s/80;var pt=hArc(bx,t,aDm,aPh);s===0?cx.moveTo(pt.x,pt.y):cx.lineTo(pt.x,pt.y);}cx.stroke();
+for(var v=1;v<8;v++){
+var t0=v/8,dt=0.008;
+var p0=hArc(bx,t0-dt,aDm,aPh),p1=hArc(bx,t0,aDm,aPh),p2=hArc(bx,t0+dt,aDm,aPh);
+var tdx=p2.x-p0.x,tdy=p2.y-p0.y,tl=Math.sqrt(tdx*tdx+tdy*tdy);
+if(tl>0.01){tdx/=tl;tdy/=tl;}
+var semC=1-t0,latC=t0,rA=t0*Math.PI*2+aPh;
+if(dpShowTan){cx.strokeStyle='rgba(136,135,128,0.25)';cx.lineWidth=0.8;cx.beginPath();cx.moveTo(p1.x-tdx*18,p1.y-tdy*18);cx.lineTo(p1.x+tdx*18,p1.y+tdy*18);cx.stroke();cx.fillStyle='rgba(136,135,128,0.5)';cx.beginPath();cx.arc(p1.x+tdx*18,p1.y+tdy*18,2,0,Math.PI*2);cx.fill();}
+if(dpShowRot){
+var sr=22*semC;if(sr>3){var srx=bx+Math.cos(rA)*sr,sry=sY+Math.sin(rA)*sr*0.3;cx.strokeStyle='rgba(93,202,165,'+(0.15+0.4*semC)+')';cx.lineWidth=1;cx.beginPath();cx.arc(bx,sY,sr,rA-0.8,rA,false);cx.stroke();cx.fillStyle='rgba(93,202,165,'+(0.3+0.5*semC)+')';cx.beginPath();cx.arc(srx,sry,2.5,0,Math.PI*2);cx.fill();cx.strokeStyle='rgba(93,202,165,0.08)';cx.lineWidth=0.5;cx.setLineDash([2,4]);cx.beginPath();cx.moveTo(srx,sry);cx.lineTo(p1.x,p1.y);cx.stroke();cx.setLineDash([]);}
+var lr=22*latC;if(lr>3){var lrA=-rA,lrx=bx+Math.cos(lrA)*lr,lry=fY+Math.sin(lrA)*lr*0.3;cx.strokeStyle='rgba(216,90,48,'+(0.15+0.4*latC)+')';cx.lineWidth=1;cx.beginPath();cx.arc(bx,fY,lr,lrA-0.8,lrA,false);cx.stroke();cx.fillStyle='rgba(216,90,48,'+(0.3+0.5*latC)+')';cx.beginPath();cx.arc(lrx,lry,2.5,0,Math.PI*2);cx.fill();cx.strokeStyle='rgba(216,90,48,0.08)';cx.lineWidth=0.5;cx.setLineDash([2,4]);cx.beginPath();cx.moveTo(lrx,lry);cx.lineTo(p1.x,p1.y);cx.stroke();cx.setLineDash([]);}
+}}
+cx.fillStyle='rgba(93,202,165,0.5)';cx.beginPath();cx.arc(hArc(bx,0.02,aDm,aPh).x,hArc(bx,0.02,aDm,aPh).y,3,0,Math.PI*2);cx.fill();
+cx.fillStyle='rgba(216,90,48,0.5)';cx.beginPath();cx.arc(hArc(bx,0.98,aDm,aPh).x,hArc(bx,0.98,aDm,aPh).y,3,0,Math.PI*2);cx.fill();
+}
+var mY=sY+(fY-sY)*0.5;
+cx.fillStyle='rgba(127,119,221,0.25)';cx.font='11px sans-serif';
+cx.fillText('\u27E8F\u2191|F\u2193\u27E9[i] \u2014 both rotations coexist at every point',60,mY-60);
+cx.fillText('semantic CW, latent CCW \u2014 counter-rotation = activation',60,mY+5);
+cx.fillText('arcs never touch either surface \u2014 tangent space IS the metric',60,mY+50);
+cx.fillStyle='rgba(160,0,33,0.3)';cx.fillText('\u03A6 = e^(\u03C0/4\u00B7\u221A2) \u2248 '+E_PHASE.toFixed(4),W-250,sY-18);
+requestAnimationFrame(drawDP);}
+requestAnimationFrame(drawDP);
+
+function log(msg,cls){var el=document.getElementById('logO');var d=document.createElement('div');if(cls)d.className=cls;d.textContent=msg;el.appendChild(d);el.scrollTop=el.scrollHeight;}
+function renderPasses(passes){var c=document.getElementById('ceptT');c.innerHTML='';if(!passes.length)return;var mx=Math.max.apply(null,passes.filter(function(p){return isFinite(p.denom);}).map(function(p){return p.denom;}));if(!mx)mx=1;passes.forEach(function(p){var r=document.createElement('div');r.className='cr';if(p.steppedUp)r.style.borderLeft='2px solid #cc8800';var fp=p.converged?100:Math.min(100,(p.denom/mx)*100);var sl=p.steppedUp?' [F\u2191i]':'';r.innerHTML='<span class="ci">cept-'+p.pass+sl+'</span><span class="cs">step '+p.step+'</span><span class="cg">gap: '+(p.gap<0.0001?'\u22480':p.gap.toFixed(6))+'</span><span class="cd">1/gap: '+(p.converged?'\u221E':p.denom.toFixed(1))+'</span><div class="cb"><div class="cbf" style="width:'+fp+'%;'+(p.steppedUp?'background:#cc8800':'')+'"></div></div>';c.appendChild(r);});}
+
+function runEngine(){document.getElementById('logO').innerHTML='';var prog=document.getElementById('prog').value,seed=document.getElementById('seed').value,maxS=parseInt(document.getElementById('mxs').value)||300,maxC=parseInt(document.getElementById('mxc').value)||8;log('\u2550\u2550\u2550 FORWARD DERIVATAL HYPERCOMPUTATION \u2550\u2550\u2550','inf');log('\u03A6 = e^(\u03C0/4\u00B7\u221A2) = '+E_PHASE.toFixed(6),'inf');log('Program: '+prog+' | Seed: '+seed+' | Max: '+maxS+' steps, '+maxC+' cepts');var result=runProgram(prog,seed,maxS);log('Steps: '+result.values.length+'. Halt: '+(result.halted?'YES step '+result.haltStep:'NO'),result.halted?'up':'dn');var sd=mapToSphere(result.values);var complexity=measureComplexity(sd);log('Arc: '+sd.arcLength.toFixed(4)+' | Wind: \u03B8='+sd.windingTheta.toFixed(3)+' \u03C6='+sd.windingPhi.toFixed(3),'cy');log('Complexity: 1 (conserved). Distribution: dc='+sd.cDist.dc.toFixed(3)+' ci='+sd.cDist.ci.toFixed(3)+' wr='+sd.cDist.wr.toFixed(3)+' ar='+sd.cDist.ar.toFixed(3),'inf');var app=findClosest(sd.points);log('Closest: step '+app.step+', gap '+app.gap.toFixed(6),'inf');log('');log('\u2550\u2550\u2550 DENOMINATOR REFINEMENT \u2550\u2550\u2550','inf');var ref=refineDenom(sd.points,maxC);ref.passes.forEach(function(p){var msg=p.converged?'cept-'+p.pass+': CONVERGED step '+p.step:'cept-'+p.pass+': step '+p.step+', gap '+p.gap.toFixed(6)+', 1/gap='+p.denom.toFixed(2);if(p.steppedUp)msg+=' \u2190 F\u2191i (\u03A6='+E_PHASE.toFixed(2)+'/d)';log(msg,p.converged?'up':p.steppedUp?'inf':'cy');});log('');log('\u2550\u2550\u2550 CEPT-ROT^i \u2550\u2550\u2550','inf');var cr=ceptRotProject(ref.passes,complexity,sd.cDist);log('cept-rot^i \u2192 step '+cr,'cy');log('Dist: dc='+sd.cDist.dc.toFixed(3)+' ci='+sd.cDist.ci.toFixed(3)+' wr='+sd.cDist.wr.toFixed(3)+' ar='+sd.cDist.ar.toFixed(3)+' (sum=1)','cy');if(result.halted){var err=Math.abs(cr-result.haltStep);log('Error: '+err+' (actual: '+result.haltStep+')',err===0?'up':'inf');}document.getElementById('rGrid').style.display='grid';document.getElementById('rH').textContent=result.halted?'Step '+result.haltStep:'NOT REACHED';document.getElementById('rH').className='rv '+(result.halted?'grn':'red');document.getElementById('rC').textContent='Step ~'+cr;document.getElementById('rCO').textContent='dc:'+sd.cDist.dc.toFixed(2)+' ci:'+sd.cDist.ci.toFixed(2)+' wr:'+sd.cDist.wr.toFixed(2)+' ar:'+sd.cDist.ar.toFixed(2);document.getElementById('rN').textContent=ref.passes.length;var lp2=ref.passes[ref.passes.length-1];document.getElementById('rG').textContent=lp2?lp2.gap<0.0001?'\u2248 0':lp2.gap.toFixed(6):'—';var vEl=document.getElementById('rV');if(lp2&&lp2.converged){vEl.textContent='HALTS';vEl.className='rv grn';}else{vEl.textContent='INDETERMINATE';vEl.className='rv amb';}renderPasses(ref.passes);renderSphere(document.getElementById('sph'),sd,app);}
+window.addEventListener('load',function(){setTimeout(runEngine,100);});
+</script>
+</body>
+</html>
