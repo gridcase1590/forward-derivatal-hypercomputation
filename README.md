@@ -17,3 +17,7 @@ See `forward_hypercomputation_paper.pdf`
  
 ## Author
 David - Prague, Czech Republic - 4AM 04/04/202
+
+## License
+forward_hypercomputation - GPL v3
+forward_hypercomputation_paper.pdf - CC BY 4.0
