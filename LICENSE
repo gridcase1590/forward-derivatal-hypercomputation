@@ -1,0 +1,33 @@
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (C) 2026 David Lowder (@v3rdad on Telegram)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+The full text of the GNU General Public License v3 is available at:
+https://www.gnu.org/licenses/gpl-3.0.txt
+
+---
+
+SCOPE OF THIS LICENSE:
+
+This license applies to all source code in this repository, including:
+  - forward_hypercomputation.html (Interactive Computation Engine)
+  - Any derivative code files
+
+The research paper (forward_hypercomputation_paper.pdf) is licensed
+separately under Creative Commons Attribution 4.0 International.
+See LICENSE-PAPER for details.
+https://doi.org/10.5281/zenodo.19412086
