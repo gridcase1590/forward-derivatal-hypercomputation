@@ -1,6 +1,7 @@
 # Forward Derivatal Hypercomputation
 A geometric halting detector using non-Euclidean phase analysis.
- 
+DOI: https://doi.org/10.5281/zenodo.19412086
+
 ## Quick Start
 Open `forward_hypercomputation.html` in any browser.
  
