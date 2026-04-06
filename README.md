@@ -18,7 +18,7 @@ See `forward_hypercomputation_paper.pdf`
 Φ = e^(π/4·√2) ≈ 2.2807
  
 ## Author
-David - Prague, Czech Republic - 4AM 04/04/202
+David - Prague, Czech Republic - 4AM 04/04/2026
 
 ## License
 forward_hypercomputation - GPL v3
